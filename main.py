@@ -15,6 +15,7 @@ def main():
     engine = Game(FPS=60)
     user = User(engine.get_instance(), CELL_SIZE)
 
+    generation, killed = 0, 0
     screen = engine.get_screen()
     cells = []
 
@@ -42,12 +43,18 @@ def main():
         if not game_started and user.started_game(user_events):
             if len(cells) > MINIMUM_ALLOWED_CELLS:
                 game_started = True
-                engine.set_fps(1)  # Higher than 2 fps would be to fast!
+                engine.set_fps(2)  # Higher than 2 fps would be to fast!
             else:
                 print("PALCEHOLDER: NEED CEELS (MORE THAN 3)")
 
         # If initial cells have been added (Game started)
         if game_started:
+            print("-" * 10)
+            print(f"Current generation: {generation}")
+            print(f"Current alive cells: {len(cells)}")
+            print(f"Killed cells: {killed}")
+            print("-" * 10)
+            generation += 1
 
             # Store alive cells and position
             cells_alive = [cell for cell in cells if cell.is_alive()]
@@ -85,7 +92,14 @@ def main():
 
                 # If cell has less than 2 or cell has more than 3 neighbors -> kill
                 if cell_alive_neighbors < 2 or cell_alive_neighbors > 3:
+
+                    cell_to_remove_index = [c.get_identifier() for c in cells].index(
+                        cell.get_identifier()
+                    )
+                    cells.pop(cell_to_remove_index)
+
                     cell.kill(BACKGROUND_COLOR)
+                    killed += 1
 
         # Render all cells
         for cell in cells:
