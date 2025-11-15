@@ -20,3 +20,6 @@ class Game:
     def get_screen(self):
         screen = self.game_instance.display.set_mode((self.WIDTH, self.HEIGHT))
         return screen
+
+    def get_instance(self):
+        return self.game_instance
