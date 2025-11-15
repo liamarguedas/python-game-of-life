@@ -15,10 +15,6 @@ class Cell:
     def draw(self):
         pygame.draw.rect(self.screen, self.color, (self.x, self.y, *self.size))
 
-    def set_new_position(self, x_new, y_new):
-        self.x = x_new
-        self.y = y_new
-
     def is_alive(self):
         return self.alive
 
@@ -26,6 +22,13 @@ class Cell:
         self.color = background_color
         self.alive = False
         self.draw()
+
+    def set_new_position(self, x_new, y_new):
+        self.x = x_new
+        self.y = y_new
+
+    def get_position(self):
+        return self.x, self.y
 
     # def get_neighbors(self):
 

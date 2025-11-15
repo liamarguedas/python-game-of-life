@@ -8,18 +8,21 @@ class Game:
         self.FPS = FPS
         self.WIDTH = WIDTH
         self.HEIGHT = HEIGHT
-        self.game_instance = pygame
+        self.game_engine = pygame
 
     def create_canvas(self):
-        self.game_instance.init()
+        self.game_engine.init()
 
     def render_canvas(self):
-        self.game_instance.display.flip()
-        self.game_instance.time.Clock().tick(self.FPS)
+        self.game_engine.display.flip()
+        self.game_engine.time.Clock().tick(self.FPS)
 
     def get_screen(self):
-        screen = self.game_instance.display.set_mode((self.WIDTH, self.HEIGHT))
+        screen = self.game_engine.display.set_mode((self.WIDTH, self.HEIGHT))
         return screen
 
     def get_instance(self):
-        return self.game_instance
+        return self.game_engine
+
+    def set_fps(self, fps):
+        self.FPS = fps
