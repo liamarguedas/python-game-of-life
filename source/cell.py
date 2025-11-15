@@ -1,4 +1,5 @@
 import pygame
+from .position import Position
 
 
 class Cell:
@@ -11,6 +12,8 @@ class Cell:
         self.x = x_init
         self.y = y_init
         self.size = (size, size)
+        self.side_size = size
+        self.neightbors = self.set_neighbors()
 
     def draw(self):
         pygame.draw.rect(self.screen, self.color, (self.x, self.y, *self.size))
@@ -18,20 +21,37 @@ class Cell:
     def is_alive(self):
         return self.alive
 
-    def kill_cell(self, background_color):
+    def kill(self, background_color):
         self.color = background_color
         self.alive = False
         self.draw()
 
-    def set_new_position(self, x_new, y_new):
-        self.x = x_new
-        self.y = y_new
+    def set_neighbors(self):
+        return {
+            Position.NW: (self.x - self.side_size, self.y - self.side_size),
+            Position.N: (self.x, self.y - self.side_size),
+            Position.NE: (self.x + self.side_size, self.y - self.side_size),
+            Position.W: (self.x - self.side_size, self.y),
+            Position.E: (self.x + self.side_size, self.y),
+            Position.SW: (self.x - self.side_size, self.y + self.side_size),
+            Position.S: (self.x, self.y + self.side_size),
+            Position.SE: (self.x + self.side_size, self.y + self.side_size),
+        }
 
     def get_position(self):
         return self.x, self.y
 
-    # def get_neighbors(self):
+    def get_neighbors(self):
+        return self.neightbors
 
-    # Metodo pra mover
-
-    # Metodo para retornar vizinhos
+    def get_neighbors_from_cords(self, x, y):
+        return {
+            Position.NW: (x - self.side_size, y - self.side_size),
+            Position.N: (x, y - self.side_size),
+            Position.NE: (x + self.side_size, y - self.side_size),
+            Position.W: (x - self.side_size, y),
+            Position.E: (x + self.side_size, y),
+            Position.SW: (x - self.side_size, y + self.side_size),
+            Position.S: (x, y + self.side_size),
+            Position.SE: (x + self.side_size, y + self.side_size),
+        }

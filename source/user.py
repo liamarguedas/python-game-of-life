@@ -1,15 +1,15 @@
 class User:
 
-    def __init__(self, engine) -> None:
+    def __init__(self, engine, size) -> None:
         self.engine = engine
+        self.size = size
         self.click_pos = (None, None)
 
-    @staticmethod
-    def round_number(num, threshold=5):
-        last_digit = num % 10
+    def round_number(self, num, threshold=5):
+        last_digit = num % self.size
         if last_digit < threshold:
             return num - last_digit
-        return num + (10 - last_digit)
+        return num + (self.size - last_digit)
 
     def clicked(self, events):
         for event in events:
@@ -22,6 +22,13 @@ class User:
         for event in events:
             if event.type == self.engine.KEYDOWN:
                 if event.key == self.engine.K_SPACE:
+                    return True
+        return False
+
+    def reset_game(self, events):
+        for event in events:
+            if event.type == self.engine.KEYDOWN:
+                if event.key == self.engine.K_BACKSPACE:
                     return True
         return False
 
